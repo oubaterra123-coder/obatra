@@ -1,5 +1,13 @@
-<!-- BEGIN:nextjs-agent-rules -->
-# This is NOT the Next.js you know
+export default function Navbar() {
+  return (
+    <nav className="flex items-center justify-between p-6 border-b">
+      <h1 className="text-2xl font-bold">Obatra</h1>
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
-<!-- END:nextjs-agent-rules -->
+      <div className="flex gap-6">
+        <a href="/">Home</a>
+        <a href="#">Features</a>
+        <a href="#">Pricing</a>
+      </div>
+    </nav>
+  );
+}
