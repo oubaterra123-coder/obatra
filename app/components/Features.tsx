@@ -1,53 +1,85 @@
-import { PenSquare, ImageIcon, MessageCircle } from "lucide-react";
+﻿import {
+  PenSquare,
+  ImageIcon,
+  MessageCircle,
+  FileText,
+  Languages,
+} from "lucide-react";
 
 const features = [
   {
+    icon: MessageCircle,
+    title: "AI Chat",
+    description:
+      "Ask questions, brainstorm ideas, and get instant AI-powered answers.",
+  },
+  {
     icon: PenSquare,
     title: "AI Writer",
-    description: "Generate blogs, emails, ads and marketing content in seconds.",
+    description:
+      "Create blogs, emails, ads, and professional content in seconds.",
   },
   {
     icon: ImageIcon,
-    title: "AI Image Generator",
-    description: "Create professional AI images from simple text prompts.",
+    title: "AI Images",
+    description:
+      "Turn simple ideas into creative images with AI-powered generation.",
   },
   {
-    icon: MessageCircle,
-    title: "AI Chat",
-    description: "Ask questions, brainstorm ideas and get instant answers.",
+    icon: FileText,
+    title: "PDF AI",
+    description:
+      "Upload a PDF, ask questions, and get answers based on your document.",
+  },
+  {
+    icon: Languages,
+    title: "Translator",
+    description:
+      "Translate your text quickly across different languages with AI.",
   },
 ];
 
 export default function Features() {
   return (
-    <section className="bg-gray-50 py-24">
+    <section id="features" className="bg-gray-50 py-24">
       <div className="mx-auto max-w-7xl px-6">
-        <h2 className="text-center text-4xl font-bold">
-          Everything you need in one place
-        </h2>
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="font-semibold text-blue-600">OBATRA AI WORKSPACE</p>
 
-        <p className="mt-4 text-center text-gray-600">
-          Powerful AI tools designed for creators, freelancers and businesses.
-        </p>
+          <h2 className="mt-3 text-4xl font-bold tracking-tight md:text-5xl">
+            Everything you need in one place
+          </h2>
 
-        <div className="mt-16 grid gap-8 md:grid-cols-3">
+          <p className="mt-5 text-lg text-gray-600">
+            Chat, write, create images, analyze PDFs, and translate — all from
+            one simple AI workspace.
+          </p>
+        </div>
+
+        <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature) => {
             const Icon = feature.icon;
 
             return (
               <div
                 key={feature.title}
-                className="rounded-2xl bg-white p-8 shadow-lg transition hover:-translate-y-2 hover:shadow-xl"
+                className="group rounded-2xl border border-gray-200 bg-white p-8 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl"
               >
-                <Icon size={40} className="text-blue-600" />
+                <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-blue-50">
+                  <Icon size={28} className="text-blue-600" />
+                </div>
 
                 <h3 className="mt-6 text-2xl font-bold">
                   {feature.title}
                 </h3>
 
-                <p className="mt-4 text-gray-600">
+                <p className="mt-3 leading-7 text-gray-600">
                   {feature.description}
                 </p>
+
+                <div className="mt-6 font-semibold text-blue-600">
+                  Explore tool →
+                </div>
               </div>
             );
           })}
