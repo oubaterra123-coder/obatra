@@ -1,6 +1,4 @@
-import Link from "next/link";
-
-export default function Hero() {
+ï»¿export default function Hero() {
   return (
     <section className="relative overflow-hidden px-6 pb-20 pt-24 md:pb-28 md:pt-28">
       <div className="mx-auto max-w-5xl text-center">
@@ -16,17 +14,16 @@ export default function Hero() {
         </h1>
 
         <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-600 md:text-xl">
-          Chat, write, create images, analyze PDFs, and translate —
-          all in one powerful AI workspace.
+          Chat, write, create images, analyze PDFs, and translate - all in one powerful AI workspace.
         </p>
 
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Link
-            href="/register"
+          <a
+            href="#features"
             className="rounded-xl bg-blue-600 px-7 py-3.5 font-semibold text-white shadow-lg transition hover:bg-blue-700 hover:shadow-xl"
           >
-            Start Creating ?
-          </Link>
+            Explore Obatra
+          </a>
 
           <a
             href="#pricing"
@@ -36,49 +33,31 @@ export default function Hero() {
           </a>
         </div>
 
-        <div
-          id="features"
-          className="mt-14 grid grid-cols-2 gap-4 text-left sm:grid-cols-5"
-        >
-          <Link
-            href="/dashboard/chat"
-            className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-md"
-          >
-            <p className="font-semibold">?? AI Chat</p>
+        <div id="features" className="mt-14 grid grid-cols-2 gap-4 text-left sm:grid-cols-5">
+          <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+            <p className="font-semibold">AI Chat</p>
             <p className="mt-1 text-sm text-gray-500">Ask anything</p>
-          </Link>
+          </div>
 
-          <Link
-            href="/dashboard/writer"
-            className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-md"
-          >
-            <p className="font-semibold">?? AI Writer</p>
+          <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+            <p className="font-semibold">AI Writer</p>
             <p className="mt-1 text-sm text-gray-500">Create content</p>
-          </Link>
+          </div>
 
-          <Link
-            href="/dashboard/image"
-            className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-md"
-          >
-            <p className="font-semibold">??? AI Images</p>
+          <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+            <p className="font-semibold">AI Images</p>
             <p className="mt-1 text-sm text-gray-500">Create visuals</p>
-          </Link>
+          </div>
 
-          <Link
-            href="/dashboard/pdf"
-            className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-md"
-          >
-            <p className="font-semibold">?? PDF AI</p>
+          <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+            <p className="font-semibold">PDF AI</p>
             <p className="mt-1 text-sm text-gray-500">Analyze PDFs</p>
-          </Link>
+          </div>
 
-          <Link
-            href="/dashboard/translator"
-            className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:border-blue-300 hover:shadow-md"
-          >
-            <p className="font-semibold">?? Translator</p>
+          <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+            <p className="font-semibold">Translator</p>
             <p className="mt-1 text-sm text-gray-500">Translate text</p>
-          </Link>
+          </div>
         </div>
 
       </div>
