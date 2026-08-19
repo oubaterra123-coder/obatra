@@ -1,9 +1,10 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
 import { createConversation } from "@/lib/conversations";
 import ConversationSidebar from "@/app/components/dashboard/ConversationSidebar";
 import Message from "@/app/components/dashboard/Message";
+import { supabase } from "@/lib/supabase";
 
 type ChatMessage = {
   id?: string;
@@ -79,10 +80,19 @@ export default function ChatPage() {
     setLoading(true);
 
     try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (!session?.access_token) {
+        throw new Error("Authentication required.");
+      }
+
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${session.access_token}`,
         },
         body: JSON.stringify({
           message: current,
@@ -93,7 +103,7 @@ export default function ChatPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error);
+        throw new Error(data.error || "Chat request failed.");
       }
 
       setMessages((prev) => [
@@ -106,13 +116,16 @@ export default function ChatPage() {
 
       window.dispatchEvent(new Event("conversation-updated"));
     } catch (error) {
-      console.error(error);
+      console.error("CHAT ERROR:", error);
 
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: "Something went wrong.",
+          content:
+            error instanceof Error
+              ? error.message
+              : "Something went wrong.",
         },
       ]);
     } finally {
@@ -126,10 +139,19 @@ export default function ChatPage() {
     setLoading(true);
 
     try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (!session?.access_token) {
+        throw new Error("Authentication required.");
+      }
+
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${session.access_token}`,
         },
         body: JSON.stringify({
           message: lastPrompt,
@@ -140,7 +162,7 @@ export default function ChatPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error);
+        throw new Error(data.error || "Regeneration failed.");
       }
 
       setMessages((prev) => [
@@ -153,7 +175,18 @@ export default function ChatPage() {
 
       window.dispatchEvent(new Event("conversation-updated"));
     } catch (error) {
-      console.error(error);
+      console.error("REGENERATE ERROR:", error);
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content:
+            error instanceof Error
+              ? error.message
+              : "Something went wrong.",
+        },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -220,7 +253,7 @@ export default function ChatPage() {
             disabled={loading || !lastPrompt}
             className="rounded-lg border px-6 py-3"
           >
-            🔄 Regenerate
+            Regenerate
           </button>
         </div>
       </main>
