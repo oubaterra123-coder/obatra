@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createConversation } from "@/lib/conversations";
-import ConversationSidebar from "@/app/components/dashboard/ConversationSidebar";
 import Message from "@/app/components/dashboard/Message";
 import { supabase } from "@/lib/supabase";
 
@@ -19,12 +18,17 @@ export default function ChatPage() {
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [lastPrompt, setLastPrompt] = useState("");
 
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({
-      behavior: "smooth",
-    });
+    const container = chatContainerRef.current;
+
+    if (container) {
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior: "smooth",
+      });
+    }
   }, [messages]);
 
   useEffect(() => {
@@ -194,14 +198,12 @@ export default function ChatPage() {
 
   return (
     <div className="flex h-screen bg-gray-100">
-      <ConversationSidebar />
-
       <main className="flex flex-1 flex-col p-8">
         <h1 className="mb-6 text-3xl font-bold">
           AI Chat
         </h1>
 
-        <div className="mb-6 flex-1 overflow-y-auto rounded-xl border bg-white p-6 shadow">
+        <div ref={chatContainerRef} className="mb-6 flex-1 overflow-y-auto rounded-xl border bg-white p-6 shadow">
           {messages.length === 0 ? (
             <p className="text-gray-500">
               Start chatting with Obatra AI...
@@ -224,8 +226,6 @@ export default function ChatPage() {
               </p>
             </div>
           )}
-
-          <div ref={bottomRef} />
         </div>
 
         <div className="flex gap-3">
@@ -260,3 +260,6 @@ export default function ChatPage() {
     </div>
   );
 }
+
+
+
