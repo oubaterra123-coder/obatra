@@ -77,17 +77,6 @@ export async function POST(req: Request) {
 
     console.log("USER PLAN:", profile.plan);
 
-    if (profile.plan !== "pro") {
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Pro subscription required.",
-          code: "PRO_REQUIRED",
-        },
-        { status: 403 }
-      );
-    }
-
     const { message, conversationId } = await req.json();
 
     if (!message?.trim()) {
