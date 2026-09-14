@@ -1,18 +1,13 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { createConversation } from "@/lib/conversations";
-
-const CONTENT_TYPES = [
-  "Blog Post",
-  "Product Description",
-  "Facebook Ad",
-  "Email",
-];
+import { CONTENT_TYPES } from "@/lib/constants";
+import { supabase } from "@/lib/supabase";
 
 export default function WriterPage() {
   const [topic, setTopic] = useState("");
-  const [type, setType] = useState("Blog Post");
+  const [type, setType] = useState(CONTENT_TYPES[0]);
   const [article, setArticle] = useState("");
   const [loading, setLoading] = useState(false);
   const [conversationId, setConversationId] = useState<string | null>(null);
@@ -49,10 +44,20 @@ export default function WriterPage() {
     setArticle("");
 
     try {
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession();
+
+      if (sessionError || !session?.access_token) {
+        throw new Error("Please log in again.");
+      }
+
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${session.access_token}`,
         },
         body: JSON.stringify({
           message: `WRITE::${type}::${topic}`,
@@ -71,11 +76,9 @@ export default function WriterPage() {
       console.error("WRITER ERROR:", error);
 
       setArticle(
-        `❌ ${
-          error instanceof Error
-            ? error.message
-            : "Something went wrong."
-        }`
+        error instanceof Error
+          ? `Error: ${error.message}`
+          : "Something went wrong while generating content."
       );
     } finally {
       setLoading(false);
@@ -83,27 +86,29 @@ export default function WriterPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-100 p-8">
-      <div className="mx-auto max-w-4xl">
+    <main className="min-h-screen bg-slate-50">
+      <div className="mx-auto max-w-5xl px-6 py-10">
 
-        <h1 className="text-4xl font-bold">
-          AI Writer ✍️
-        </h1>
+        <div>
+          <h1 className="text-4xl font-bold text-slate-900">
+            AI Writer
+          </h1>
 
-        <p className="mt-2 text-gray-500">
-          Generate professional content with AI.
-        </p>
+          <p className="mt-2 text-gray-500">
+            Generate professional content with AI.
+          </p>
+        </div>
 
-        <div className="mt-8 rounded-2xl border bg-white p-6 shadow">
+        <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
 
-          <label className="font-semibold">
+          <label className="font-semibold text-slate-900">
             Content Type
           </label>
 
           <select
             value={type}
             onChange={(e) => setType(e.target.value)}
-            className="mt-3 w-full rounded-xl border p-4"
+            className="mt-3 w-full rounded-xl border border-slate-300 p-4 outline-none focus:ring-2 focus:ring-green-500"
           >
             {CONTENT_TYPES.map((contentType) => (
               <option key={contentType} value={contentType}>
@@ -112,7 +117,7 @@ export default function WriterPage() {
             ))}
           </select>
 
-          <label className="mt-5 block font-semibold">
+          <label className="mt-5 block font-semibold text-slate-900">
             Topic
           </label>
 
@@ -120,13 +125,13 @@ export default function WriterPage() {
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
             placeholder="Example: How to Start an E-commerce Business"
-            className="mt-3 h-32 w-full rounded-xl border p-4 outline-none focus:ring-2 focus:ring-green-500"
+            className="mt-3 h-32 w-full resize-none rounded-xl border border-slate-300 p-4 outline-none focus:ring-2 focus:ring-green-500"
           />
 
           <button
             onClick={generateArticle}
             disabled={loading || !conversationId || !topic.trim()}
-            className="mt-5 rounded-xl bg-green-600 px-8 py-3 font-semibold text-white hover:bg-green-700 disabled:opacity-50"
+            className="mt-5 rounded-xl bg-green-600 px-8 py-3 font-semibold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? "Generating..." : "Generate Content"}
           </button>
@@ -139,9 +144,9 @@ export default function WriterPage() {
 
         </div>
 
-        <div className="mt-8 rounded-2xl border bg-white p-6 shadow">
+        <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
 
-          <h2 className="mb-4 text-2xl font-bold">
+          <h2 className="mb-4 text-2xl font-bold text-slate-900">
             Generated Content
           </h2>
 
@@ -150,7 +155,7 @@ export default function WriterPage() {
               Generating content...
             </p>
           ) : article ? (
-            <div className="whitespace-pre-wrap leading-8">
+            <div className="whitespace-pre-wrap leading-8 text-slate-700">
               {article}
             </div>
           ) : (
