@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 const plans = [
   {
@@ -119,7 +119,7 @@ export default function Pricing() {
                         plan.featured ? "text-white" : "text-blue-600"
                       }
                     >
-                      ✓
+                      ?
                     </span>
 
                     <span
@@ -136,9 +136,9 @@ export default function Pricing() {
               <button
                 onClick={() => {
                   if (plan.button === "Start Free") {
-                    window.location.href = "/dashboard";
+                    window.location.href = "/login";
                   } else if (plan.button === "Upgrade to Pro") {
-                    window.location.href = "/dashboard/settings/pro";
+                    window.location.href = "/login";
                   } else if (plan.button === "Contact Sales") {
                     window.location.href = "/contact";
                   }
@@ -162,4 +162,5 @@ export default function Pricing() {
     </section>
   );
 }
+
 
