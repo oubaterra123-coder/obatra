@@ -1,4 +1,5 @@
-﻿import {
+﻿import Link from "next/link";
+import {
   PenSquare,
   ImageIcon,
   MessageCircle,
@@ -51,7 +52,7 @@ export default function Features() {
           </h2>
 
           <p className="mt-5 text-lg text-gray-600">
-            Chat, write, create images, analyze PDFs, and translate — all from
+            Chat, write, create images, analyze PDFs, and translate - all from
             one simple AI workspace.
           </p>
         </div>
@@ -77,9 +78,12 @@ export default function Features() {
                   {feature.description}
                 </p>
 
-                <div className="mt-6 font-semibold text-blue-600">
-                  Explore tool →
-                </div>
+                <Link
+                  href="/login"
+                  className="mt-6 block font-semibold text-blue-600 transition hover:text-blue-700"
+                >
+                  Explore tool
+                </Link>
               </div>
             );
           })}
