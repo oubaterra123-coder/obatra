@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { generateText } from "@/lib/gemini";
 import { PROMPTS } from "@/lib/prompts";
@@ -20,10 +20,7 @@ export async function POST(req: Request) {
   try {
     const authorization = req.headers.get("authorization");
 
-    if (
-      !authorization ||
-      !authorization.startsWith("Bearer ")
-    ) {
+    if (!authorization?.startsWith("Bearer ")) {
       return NextResponse.json(
         {
           success: false,
@@ -101,9 +98,34 @@ export async function POST(req: Request) {
 
     console.log("Conversation:", conversationId);
 
+    const {
+      data: conversation,
+      error: conversationError,
+    } = await supabaseAdmin
+      .from("conversations")
+      .select("id, title, user_id")
+      .eq("id", conversationId)
+      .eq("user_id", user.id)
+      .single();
+
+    if (conversationError || !conversation) {
+      console.error("CONVERSATION ERROR:", conversationError);
+
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Conversation not found or access denied.",
+        },
+        { status: 404 }
+      );
+    }
+
     let prompt = "";
 
-    if (message.startsWith("WRITE::")) {
+    if (message.startsWith("SUMMARIZE::")) {
+      const text = message.substring("SUMMARIZE::".length);
+      prompt = PROMPTS.summarizer(text);
+    } else if (message.startsWith("WRITE::")) {
       const [, type, topic] = message.split("::");
       prompt = PROMPTS.writer(type, topic);
     } else if (message.startsWith("TRANSLATE::")) {
@@ -119,28 +141,24 @@ export async function POST(req: Request) {
 
     console.log("Gemini OK");
 
-    const { data: conversation } = await supabaseAdmin
-      .from("conversations")
-      .select("title")
-      .eq("id", conversationId)
-      .single();
-
-    if (
-      conversation &&
-      conversation.title === "New Chat"
-    ) {
+    if (conversation.title === "New Chat") {
       const title =
         message.length > 40
           ? message.substring(0, 40) + "..."
           : message;
 
-      await supabaseAdmin
+      const { error: titleError } = await supabaseAdmin
         .from("conversations")
         .update({
           title,
           updated_at: new Date().toISOString(),
         })
-        .eq("id", conversationId);
+        .eq("id", conversationId)
+        .eq("user_id", user.id);
+
+      if (titleError) {
+        console.error("TITLE UPDATE ERROR:", titleError);
+      }
     }
 
     const { data, error } = await supabaseAdmin

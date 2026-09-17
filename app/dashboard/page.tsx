@@ -35,6 +35,12 @@ const tools = [
     icon: "🌐",
     href: "/dashboard/translator",
   },
+  {
+    title: "AI Summarizer",
+    description: "Summarize long texts quickly and clearly with AI.",
+    icon: "📝",
+    href: "/dashboard/summarizer",
+  },
 ];
 
 export default function DashboardHome() {
@@ -239,3 +245,4 @@ export default function DashboardHome() {
     </main>
   );
 }
+

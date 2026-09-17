@@ -15,6 +15,20 @@ Requirements:
 - Finish with a conclusion
 `,
 
+  summarizer: (text: string) => `
+Summarize the following text clearly and accurately.
+
+Return:
+- A concise summary
+- Main points
+- Important details
+
+Do not add information that is not present in the original text.
+
+Text:
+${text}
+`,
+
   pdfSummary: (text: string) => `
 Summarize the following PDF.
 
