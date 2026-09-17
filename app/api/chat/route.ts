@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { generateText } from "@/lib/gemini";
 import { PROMPTS } from "@/lib/prompts";
@@ -125,6 +125,10 @@ export async function POST(req: Request) {
     if (message.startsWith("SUMMARIZE::")) {
       const text = message.substring("SUMMARIZE::".length);
       prompt = PROMPTS.summarizer(text);
+    } else if (message.startsWith("STUDY::")) {
+      const [, mode, ...textParts] = message.split("::");
+      const text = textParts.join("::");
+      prompt = PROMPTS.study(mode, text);
     } else if (message.startsWith("WRITE::")) {
       const [, type, topic] = message.split("::");
       prompt = PROMPTS.writer(type, topic);
@@ -211,6 +215,7 @@ export async function POST(req: Request) {
     );
   }
 }
+
 
 
 

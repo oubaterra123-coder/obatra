@@ -1,4 +1,4 @@
-export const PROMPTS = {
+﻿export const PROMPTS = {
   writer: (type: string, topic: string) => `
 You are a professional AI writer.
 
@@ -27,6 +27,23 @@ Do not add information that is not present in the original text.
 
 Text:
 ${text}
+`,
+
+  study: (mode: string, text: string) => `
+You are an AI study assistant.
+
+Study mode: ${mode}
+
+Help the student with the following content:
+${text}
+
+Instructions:
+- Give accurate and clear explanations.
+- Use simple language when explaining difficult concepts.
+- For questions, answer directly and explain the reasoning.
+- For summaries, keep the essential information.
+- For quizzes, create useful practice questions and include the answers.
+- Do not invent information that is not supported by the provided content.
 `,
 
   pdfSummary: (text: string) => `
@@ -62,3 +79,4 @@ Style:
 ${style}
 `,
 };
+

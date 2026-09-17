@@ -41,6 +41,12 @@ const tools = [
     icon: "📝",
     href: "/dashboard/summarizer",
   },
+  {
+    title: "AI Study Assistant",
+    description: "Learn, understand, practice, and study with AI.",
+    icon: "🎓",
+    href: "/dashboard/study",
+  },
 ];
 
 export default function DashboardHome() {
@@ -245,4 +251,5 @@ export default function DashboardHome() {
     </main>
   );
 }
+
 
