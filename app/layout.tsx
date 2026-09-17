@@ -44,6 +44,9 @@ export const metadata: Metadata = {
     description:
       "Chat, write, create images, analyze PDFs, and translate with Obatra.",
   },
+  verification: {
+    google: "Uh-ViFaleu6LZHbkmAptB-lz6VbsI8NbLR9Ef47fQSE",
+  },
 };
 
 export default function RootLayout({
