@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -13,8 +13,37 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Obatra",
-  description: "AI Workspace",
+  metadataBase: new URL("https://obatra.vercel.app"),
+  title: {
+    default: "Obatra - AI Workspace for Your Business",
+    template: "%s | Obatra",
+  },
+  description:
+    "Obatra is an AI workspace for chat, writing, image generation, PDF analysis, and translation.",
+  keywords: [
+    "AI workspace",
+    "AI tools",
+    "AI chat",
+    "AI writer",
+    "AI image generator",
+    "PDF AI",
+    "AI translator",
+    "Obatra",
+  ],
+  authors: [{ name: "Obatra" }],
+  creator: "Obatra",
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    type: "website",
+    url: "https://obatra.vercel.app",
+    siteName: "Obatra",
+    title: "Obatra - AI Workspace for Your Business",
+    description:
+      "Chat, write, create images, analyze PDFs, and translate with Obatra.",
+  },
 };
 
 export default function RootLayout({
