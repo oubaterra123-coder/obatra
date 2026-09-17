@@ -129,6 +129,10 @@ export async function POST(req: Request) {
       const [, mode, ...textParts] = message.split("::");
       const text = textParts.join("::");
       prompt = PROMPTS.study(mode, text);
+    } else if (message.startsWith("EMAIL::")) {
+      const [, type, ...detailsParts] = message.split("::");
+      const details = detailsParts.join("::");
+      prompt = PROMPTS.email(type, details);
     } else if (message.startsWith("WRITE::")) {
       const [, type, topic] = message.split("::");
       prompt = PROMPTS.writer(type, topic);
@@ -215,6 +219,7 @@ export async function POST(req: Request) {
     );
   }
 }
+
 
 
 

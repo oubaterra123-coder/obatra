@@ -47,6 +47,12 @@ const tools = [
     icon: "🎓",
     href: "/dashboard/study",
   },
+  {
+    title: "AI Email Assistant",
+    description: "Write clear and professional emails in seconds.",
+    icon: "📧",
+    href: "/dashboard/email",
+  },
 ];
 
 export default function DashboardHome() {
@@ -251,5 +257,6 @@ export default function DashboardHome() {
     </main>
   );
 }
+
 
 

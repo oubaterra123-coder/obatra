@@ -59,6 +59,26 @@ PDF Content:
 ${text}
 `,
 
+  email: (type: string, details: string) => `
+You are a professional email writing assistant.
+
+Email type:
+${type}
+
+User details:
+${details}
+
+Write a clear, natural, professional email.
+
+Requirements:
+- Include a suitable subject line.
+- Use an appropriate greeting.
+- Make the message clear and well structured.
+- Keep the tone professional and natural.
+- End with an appropriate closing.
+- Do not invent important facts that were not provided.
+
+`,
   translator: (text: string, language: string) => `
 Translate the following text into ${language}.
 
@@ -79,4 +99,5 @@ Style:
 ${style}
 `,
 };
+
 
