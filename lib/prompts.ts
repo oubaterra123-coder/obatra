@@ -1,5 +1,20 @@
-﻿export const PROMPTS = {
+﻿const LANGUAGE_RULE = `
+LANGUAGE RULE:
+- Detect the language used by the user.
+- Respond in the same language as the user's request.
+- Support all languages, not only English.
+- If the user writes in Moroccan Darija, respond naturally in Moroccan Darija.
+- If the user writes in Arabic, respond in Arabic.
+- If the user writes in French, respond in French.
+- If the user writes in English, respond in English.
+- If the user mixes languages, use the language that is dominant in the user's request.
+- Never switch to English unless the user asks for English.
+`;
+
+export const PROMPTS = {
   writer: (type: string, topic: string) => `
+${LANGUAGE_RULE}
+
 You are a professional AI writer.
 
 Write a high-quality ${type} about:
@@ -16,7 +31,15 @@ Requirements:
 `,
 
   summarizer: (text: string) => `
+${LANGUAGE_RULE}
+
 Summarize the following text clearly and accurately.
+
+CRITICAL LANGUAGE REQUIREMENT:
+- Write the entire summary in the same language as the source text.
+- Do not translate the source text into English.
+- If the source is Moroccan Darija, write the summary in natural Moroccan Darija.
+- Preserve the original language and meaning.
 
 Return:
 - A concise summary
@@ -30,6 +53,8 @@ ${text}
 `,
 
   study: (mode: string, text: string) => `
+${LANGUAGE_RULE}
+
 You are an AI study assistant.
 
 Study mode: ${mode}
@@ -47,6 +72,8 @@ Instructions:
 `,
 
   pdfSummary: (text: string) => `
+${LANGUAGE_RULE}
+
 Summarize the following PDF.
 
 Return:
@@ -60,6 +87,8 @@ ${text}
 `,
 
   email: (type: string, details: string) => `
+${LANGUAGE_RULE}
+
 You are a professional email writing assistant.
 
 Email type:
@@ -77,17 +106,30 @@ Requirements:
 - Keep the tone professional and natural.
 - End with an appropriate closing.
 - Do not invent important facts that were not provided.
-
 `,
+
   translator: (text: string, language: string) => `
 Translate the following text into ${language}.
 
 Text:
 ${text}
+
+Important:
+- Translate accurately and naturally.
+- Keep the original meaning and tone.
+- Do not add information.
+- The requested target language is ${language}.
 `,
 
   chat: (message: string) => `
+${LANGUAGE_RULE}
+
+You are a helpful AI assistant.
+
+User message:
 ${message}
+
+Respond naturally and directly to the user.
 `,
 
   image: (prompt: string, style: string) => `
@@ -99,5 +141,4 @@ Style:
 ${style}
 `,
 };
-
 
