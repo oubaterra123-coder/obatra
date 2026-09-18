@@ -1,14 +1,6 @@
 ﻿import Link from "next/link";
 
 export default function Hero() {
-  const tools = [
-    ["AI Chat", "Ask anything"],
-    ["AI Writer", "Create content"],
-    ["AI Images", "Create visuals"],
-    ["PDF AI", "Analyze PDFs"],
-    ["Translator", "Translate text"],
-  ];
-
   return (
     <section className="relative overflow-hidden px-6 pb-24 pt-24 md:pb-32 md:pt-32">
       <div className="pointer-events-none absolute inset-0 -z-10">
@@ -45,22 +37,6 @@ export default function Hero() {
           >
             Explore AI Tools
           </Link>
-        </div>
-
-        <div
-          id="features"
-          className="mt-16 grid grid-cols-2 gap-4 text-left sm:grid-cols-5"
-        >
-          {tools.map(([title, description]) => (
-            <Link
-              key={title}
-              href="/login"
-              className="rounded-2xl border border-gray-200 bg-white/90 p-4 shadow-sm transition hover:-translate-y-1 hover:border-blue-200 hover:shadow-md"
-            >
-              <p className="font-semibold text-gray-900">{title}</p>
-              <p className="mt-1 text-sm text-gray-500">{description}</p>
-            </Link>
-          ))}
         </div>
       </div>
     </section>
