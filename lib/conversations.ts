@@ -1,16 +1,21 @@
 import { supabase } from "./supabase";
 
+async function getAccessToken() {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  return session?.access_token ?? null;
+}
+
 export async function createConversation() {
   const {
     data: { user },
     error: userError,
   } = await supabase.auth.getUser();
 
-  console.log("USER:", user);
-  console.log("AUTH ERROR:", userError);
-
-  if (!user) {
-    console.error("No authenticated user.");
+  if (userError || !user) {
+    console.error("No authenticated user.", userError);
     return null;
   }
 
@@ -23,10 +28,8 @@ export async function createConversation() {
     .select()
     .single();
 
-  console.log("CONVERSATION:", data);
-  console.log("INSERT ERROR:", error);
-
   if (error) {
+    console.error("CREATE CONVERSATION ERROR:", error);
     return null;
   }
 
@@ -34,12 +37,25 @@ export async function createConversation() {
 }
 
 export async function getConversations() {
-  const { data, error } = await supabase
-    .from("conversations")
-    .select("*")
-    .order("created_at", { ascending: false });
+  const token = await getAccessToken();
 
-  if (error) return [];
+  if (!token) {
+    console.error("No access token.");
+    return [];
+  }
 
-  return data;
+  const res = await fetch("/api/conversations", {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    const error = await res.json().catch(() => ({}));
+    console.error("GET CONVERSATIONS ERROR:", error);
+    return [];
+  }
+
+  return await res.json();
 }

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 type Conversation = {
   id: string;
@@ -14,34 +15,78 @@ export default function ConversationSidebar() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [newTitle, setNewTitle] = useState("");
 
+  async function getAuthHeaders() {
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session?.access_token) {
+      console.error("No active Supabase session.");
+      return null;
+    }
+
+    return {
+      Authorization: `Bearer ${session.access_token}`,
+    };
+  }
+
   async function loadConversations() {
     try {
-      const res = await fetch("/api/conversations");
+      const headers = await getAuthHeaders();
 
-      if (!res.ok) {
-        throw new Error("Failed to load conversations");
-      }
+      if (!headers) return;
+
+      const res = await fetch("/api/conversations", {
+        method: "GET",
+        headers,
+      });
 
       const data = await res.json();
+
+      if (!res.ok) {
+        console.error("LOAD CONVERSATIONS ERROR:", data);
+        return;
+      }
+
       setConversations(data);
     } catch (err) {
-      console.error(err);
+      console.error("LOAD CONVERSATIONS ERROR:", err);
     }
   }
 
   useEffect(() => {
     loadConversations();
+
+    const handler = () => {
+      loadConversations();
+    };
+
+    window.addEventListener("conversation-updated", handler);
+
+    return () => {
+      window.removeEventListener("conversation-updated", handler);
+    };
   }, []);
 
   async function deleteConversation(id: string) {
     if (!confirm("Delete this conversation?")) return;
 
     try {
+      const headers = await getAuthHeaders();
+
+      if (!headers) {
+        alert("Please log in again.");
+        return;
+      }
+
       const res = await fetch(`/api/conversations/${id}`, {
         method: "DELETE",
+        headers,
       });
 
       if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        console.error("DELETE ERROR:", data);
         alert("Delete failed");
         return;
       }
@@ -50,7 +95,7 @@ export default function ConversationSidebar() {
         prev.filter((chat) => chat.id !== id)
       );
     } catch (err) {
-      console.error(err);
+      console.error("DELETE ERROR:", err);
     }
   }
 
@@ -58,11 +103,19 @@ export default function ConversationSidebar() {
     if (!newTitle.trim()) return;
 
     try {
+      const headers = await getAuthHeaders();
+
+      if (!headers) {
+        alert("Please log in again.");
+        return;
+      }
+
       const res = await fetch(
         `/api/conversations/${id}/rename`,
         {
           method: "PATCH",
           headers: {
+            ...headers,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
@@ -72,6 +125,8 @@ export default function ConversationSidebar() {
       );
 
       if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        console.error("RENAME ERROR:", data);
         alert("Rename failed");
         return;
       }
@@ -87,7 +142,7 @@ export default function ConversationSidebar() {
       setEditingId(null);
       setNewTitle("");
     } catch (err) {
-      console.error(err);
+      console.error("RENAME ERROR:", err);
     }
   }
 
@@ -97,14 +152,13 @@ export default function ConversationSidebar() {
 
   return (
     <aside className="w-72 overflow-y-auto border-r bg-white p-4">
-
       <h2 className="mb-5 text-xl font-bold">
         Chats
       </h2>
 
       <input
         type="text"
-        placeholder="🔍 Search chats..."
+        placeholder="Search chats..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         className="mb-4 w-full rounded-lg border p-3 outline-none focus:border-blue-500"
@@ -118,16 +172,12 @@ export default function ConversationSidebar() {
       </Link>
 
       <div className="space-y-3">
-
         {filteredConversations.map((chat) => (
-
           <div
             key={chat.id}
             className="rounded-lg border p-3 shadow-sm"
           >
-
             {editingId === chat.id ? (
-
               <>
                 <input
                   value={newTitle}
@@ -138,7 +188,6 @@ export default function ConversationSidebar() {
                 />
 
                 <div className="flex gap-2">
-
                   <button
                     onClick={() =>
                       renameConversation(chat.id)
@@ -157,12 +206,9 @@ export default function ConversationSidebar() {
                   >
                     Cancel
                   </button>
-
                 </div>
               </>
-
             ) : (
-
               <>
                 <Link
                   href={`/dashboard/chat/${chat.id}`}
@@ -172,7 +218,6 @@ export default function ConversationSidebar() {
                 </Link>
 
                 <div className="mt-3 flex gap-2">
-
                   <button
                     onClick={() => {
                       setEditingId(chat.id);
@@ -180,7 +225,7 @@ export default function ConversationSidebar() {
                     }}
                     className="flex-1 rounded-lg bg-yellow-500 py-2 text-white hover:bg-yellow-600"
                   >
-                    ✏️ Rename
+                    Rename
                   </button>
 
                   <button
@@ -189,20 +234,14 @@ export default function ConversationSidebar() {
                     }
                     className="flex-1 rounded-lg bg-red-500 py-2 text-white hover:bg-red-600"
                   >
-                    🗑 Delete
+                    Delete
                   </button>
-
                 </div>
               </>
-
             )}
-
           </div>
-
         ))}
-
       </div>
-
     </aside>
   );
 }

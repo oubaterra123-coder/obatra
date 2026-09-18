@@ -23,11 +23,42 @@ const STYLES = [
 
 export default function ImagePage() {
   const [prompt, setPrompt] = useState("");
-  const [style, setStyle] = useState(STYLES[0]);
+  const [style, setStyle] = useState("Realistic");
   const [image, setImage] = useState("");
   const [images, setImages] = useState<ImageItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [userId, setUserId] = useState("");
+
+  useEffect(() => {
+    async function init() {
+      try {
+        const {
+          data: { user },
+          error,
+        } = await supabase.auth.getUser();
+
+        if (error) {
+          console.error("AUTH ERROR:", error);
+          return;
+        }
+
+        if (!user) {
+          console.error("NO USER LOGGED IN");
+          return;
+        }
+
+        console.log("IMAGE USER ID:", user.id);
+
+        setUserId(user.id);
+
+        await loadImages(user.id);
+      } catch (error) {
+        console.error("INIT IMAGE ERROR:", error);
+      }
+    }
+
+    init();
+  }, []);
 
   async function loadImages(id: string) {
     if (!id) return;
@@ -36,33 +67,19 @@ export default function ImagePage() {
       .from("images")
       .select("*")
       .eq("user_id", id)
-      .order("created_at", { ascending: false });
+      .order("created_at", {
+        ascending: false,
+      });
 
     if (error) {
       console.error("LOAD IMAGES ERROR:", error);
       return;
     }
 
+    console.log("LOADED IMAGES:", data);
+
     setImages(data || []);
   }
-
-  useEffect(() => {
-    async function loadUser() {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (!user) {
-        console.error("No logged-in user.");
-        return;
-      }
-
-      setUserId(user.id);
-      await loadImages(user.id);
-    }
-
-    loadUser();
-  }, []);
 
   async function generateImage() {
     if (!prompt.trim()) {
@@ -76,9 +93,12 @@ export default function ImagePage() {
     }
 
     setLoading(true);
+    setImage("");
 
     try {
-      const res = await fetch("/api/image", {
+      console.log("GENERATING IMAGE...");
+
+      const response = await fetch("/api/image", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -90,13 +110,21 @@ export default function ImagePage() {
         }),
       });
 
-      const result = await res.json();
+      const result = await response.json();
 
-      if (!res.ok) {
-        throw new Error(result.error || "Image generation failed.");
+      console.log("IMAGE API RESULT:", result);
+
+      if (!response.ok) {
+        throw new Error(
+          result.error || "Image generation failed."
+        );
       }
 
-      setImage(result.image || "");
+      if (!result.image) {
+        throw new Error("No image URL returned.");
+      }
+
+      setImage(result.image);
 
       await loadImages(userId);
     } catch (error) {
@@ -114,58 +142,79 @@ export default function ImagePage() {
 
   async function deleteImage(id: string) {
     try {
-      const res = await fetch("/api/image/delete", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id }),
-      });
-
-      const result = await res.json();
-
-      if (!res.ok || !result.success) {
-        alert(result.error || "Delete failed.");
-        return;
-      }
-
-      const deleted = images.find((item) => item.id === id);
-
-      setImages((prev) =>
-        prev.filter((item) => item.id !== id)
+      const response = await fetch(
+        "/api/image/delete",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id,
+          }),
+        }
       );
 
-      if (deleted?.image_url === image) {
+      const result = await response.json();
+
+      console.log("DELETE RESULT:", result);
+
+      if (!response.ok || !result.success) {
+        throw new Error(
+          result.error || "Delete failed."
+        );
+      }
+
+      const deletedImage = images.find(
+        (item) => item.id === id
+      );
+
+      setImages((current) =>
+        current.filter((item) => item.id !== id)
+      );
+
+      if (deletedImage?.image_url === image) {
         setImage("");
       }
     } catch (error) {
       console.error("DELETE IMAGE ERROR:", error);
-      alert("Delete failed.");
+
+      alert(
+        error instanceof Error
+          ? error.message
+          : "Delete failed."
+      );
     }
   }
 
   function downloadImage() {
     if (!image) return;
 
-    const a = document.createElement("a");
-    a.href = image;
-    a.download = "obatra-image.png";
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
-    a.click();
+    const link = document.createElement("a");
+
+    link.href = image;
+    link.download = "obatra-image.png";
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   return (
-    <main className="min-h-screen bg-gray-100 p-8">
+    <main className="min-h-screen bg-gray-50 p-6">
       <div className="mx-auto max-w-6xl">
 
-        <h1 className="text-4xl font-bold">
-          AI Image Generator 🎨
-        </h1>
+        <div>
+          <h1 className="text-4xl font-bold">
+            AI Image Generator ??
+          </h1>
 
-        <p className="mt-2 text-gray-500">
-          Create beautiful AI images from text.
-        </p>
+          <p className="mt-2 text-gray-500">
+            Create beautiful AI images from text.
+          </p>
+        </div>
 
         <div className="mt-8 rounded-2xl border bg-white p-6 shadow">
 
@@ -175,11 +224,16 @@ export default function ImagePage() {
 
           <select
             value={style}
-            onChange={(e) => setStyle(e.target.value)}
+            onChange={(event) =>
+              setStyle(event.target.value)
+            }
             className="mt-3 w-full rounded-xl border p-4"
           >
             {STYLES.map((item) => (
-              <option key={item} value={item}>
+              <option
+                key={item}
+                value={item}
+              >
                 {item}
               </option>
             ))}
@@ -191,27 +245,35 @@ export default function ImagePage() {
 
           <textarea
             value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
+            onChange={(event) =>
+              setPrompt(event.target.value)
+            }
             placeholder="Describe your image..."
-            className="mt-3 h-40 w-full rounded-xl border p-4"
+            className="mt-3 h-40 w-full rounded-xl border p-4 outline-none focus:ring-2"
           />
 
           <div className="mt-5 flex gap-3">
 
             <button
               onClick={generateImage}
-              disabled={loading || !userId || !prompt.trim()}
-              className="rounded-xl bg-purple-600 px-6 py-3 font-semibold text-white disabled:opacity-50"
+              disabled={
+                loading ||
+                !userId ||
+                !prompt.trim()
+              }
+              className="rounded-xl bg-purple-600 px-6 py-3 font-semibold text-white hover:bg-purple-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {loading ? "Generating..." : "Generate"}
+              {loading
+                ? "Generating..."
+                : "Generate"}
             </button>
 
             <button
               onClick={downloadImage}
               disabled={!image}
-              className="rounded-xl border px-6 py-3 disabled:opacity-50"
+              className="rounded-xl border px-6 py-3 font-semibold disabled:cursor-not-allowed disabled:opacity-50"
             >
-              ⬇️ Download
+              ?? Download
             </button>
 
           </div>
@@ -226,10 +288,16 @@ export default function ImagePage() {
 
         <div className="mt-10 rounded-2xl border bg-white p-6 shadow">
 
-          {image ? (
+          {loading ? (
+            <div className="flex h-96 items-center justify-center">
+              <p className="text-gray-500">
+                Generating your image...
+              </p>
+            </div>
+          ) : image ? (
             <img
               src={image}
-              alt="Generated"
+              alt="Generated AI image"
               className="mx-auto max-h-[600px] rounded-xl object-contain"
             />
           ) : (
@@ -243,7 +311,7 @@ export default function ImagePage() {
         <section className="mt-12">
 
           <h2 className="mb-5 text-2xl font-bold">
-            My Images 🖼️
+            My Images ???
           </h2>
 
           {images.length === 0 ? (
@@ -256,7 +324,7 @@ export default function ImagePage() {
               {images.map((item) => (
                 <div
                   key={item.id}
-                  className="rounded-xl border bg-white p-3 shadow"
+                  className="overflow-hidden rounded-xl border bg-white p-3 shadow"
                 >
 
                   <img
@@ -270,10 +338,12 @@ export default function ImagePage() {
                   </p>
 
                   <button
-                    onClick={() => deleteImage(item.id)}
-                    className="mt-3 w-full rounded-lg bg-red-500 px-4 py-2 text-white"
+                    onClick={() =>
+                      deleteImage(item.id)
+                    }
+                    className="mt-3 w-full rounded-lg bg-red-500 px-4 py-2 font-semibold text-white hover:bg-red-600"
                   >
-                    🗑️ Delete
+                    ??? Delete
                   </button>
 
                 </div>

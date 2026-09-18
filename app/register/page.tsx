@@ -23,11 +23,11 @@ export default function RegisterPage() {
 
     try {
       const { data, error } = await supabase.auth.signUp({
-        email,
+        email: email.trim(),
         password,
         options: {
           data: {
-            name,
+            name: name.trim(),
           },
         },
       });
@@ -39,26 +39,42 @@ export default function RegisterPage() {
 
         const { data: profileData, error: profileError } = await supabase
           .from("profiles")
-          .insert({
-            id: data.user.id,
-            name,
-            email,
-          })
+          .upsert(
+            {
+              id: data.user.id,
+              name: name.trim(),
+              email: email.trim(),
+              plan: "Gratuit",
+            },
+            {
+              onConflict: "id",
+            }
+          )
           .select();
 
         console.log("Profile:", profileData);
         console.log("Profile Error:", profileError);
+
+        if (profileError) {
+          throw profileError;
+        }
       }
 
-      alert("Account created successfully! Please check your email.");
+      alert(
+        data.session
+          ? "Account created successfully!"
+          : "Account created. Please verify your email before logging in."
+      );
+
       router.push("/login");
     } catch (error) {
-      console.error(error);
+      console.error("REGISTER FAILED RAW:", error);
+      console.error("REGISTER FAILED JSON:", JSON.stringify(error, null, 2));
 
       alert(
         error instanceof Error
           ? error.message
-          : "Registration failed."
+          : "Registration failed. Check Console."
       );
     } finally {
       setLoading(false);
@@ -121,3 +137,7 @@ export default function RegisterPage() {
     </main>
   );
 }
+
+
+
+
