@@ -53,6 +53,12 @@ const tools = [
     icon: "📧",
     href: "/dashboard/email",
   },
+  {
+    title: "AI Product Description",
+    description: "Turn product images into ready-to-use e-commerce descriptions.",
+    icon: "🛍️",
+    href: "/dashboard/product-description",
+  },
 ];
 
 export default function DashboardHome() {
@@ -257,6 +263,4 @@ export default function DashboardHome() {
     </main>
   );
 }
-
-
 
