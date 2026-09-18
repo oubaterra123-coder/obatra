@@ -5,6 +5,10 @@ import {
   MessageCircle,
   FileText,
   Languages,
+  ListChecks,
+  GraduationCap,
+  Mail,
+  ShoppingBag,
 } from "lucide-react";
 
 const features = [
@@ -38,6 +42,30 @@ const features = [
     description:
       "Translate your text quickly across different languages with AI.",
   },
+  {
+    icon: ListChecks,
+    title: "AI Summarizer",
+    description:
+      "Summarize long texts and extract the most important information.",
+  },
+  {
+    icon: GraduationCap,
+    title: "Study Assistant",
+    description:
+      "Understand lessons, explain concepts, and practice with AI.",
+  },
+  {
+    icon: Mail,
+    title: "Email Assistant",
+    description:
+      "Create clear, professional emails quickly with AI.",
+  },
+  {
+    icon: ShoppingBag,
+    title: "Product Description",
+    description:
+      "Create professional product descriptions and SEO keywords with AI.",
+  },
 ];
 
 export default function Features() {
@@ -52,8 +80,8 @@ export default function Features() {
           </h2>
 
           <p className="mt-5 text-lg text-gray-600">
-            Chat, write, create images, analyze PDFs, and translate - all from
-            one simple AI workspace.
+            Chat, write, create, study, summarize, analyze, translate, and
+            create professional content - all from one simple AI workspace.
           </p>
         </div>
 

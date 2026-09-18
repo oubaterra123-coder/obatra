@@ -1,7 +1,7 @@
 ﻿export default function Stats() {
   const stats = [
     {
-      value: "5",
+      value: "9",
       label: "AI Tools",
       description: "Powerful tools in one workspace",
     },

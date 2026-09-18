@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 const plans = [
   {
@@ -12,6 +12,10 @@ const plans = [
       "AI Images",
       "PDF AI",
       "Translator",
+      "AI Summarizer",
+      "Study Assistant",
+      "Email Assistant",
+      "Product Description",
       "Daily usage limits",
     ],
     button: "Start Free",
@@ -119,7 +123,7 @@ export default function Pricing() {
                         plan.featured ? "text-white" : "text-blue-600"
                       }
                     >
-                      ?
+                      ✓
                     </span>
 
                     <span
@@ -162,5 +166,3 @@ export default function Pricing() {
     </section>
   );
 }
-
-
