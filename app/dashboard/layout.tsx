@@ -1,4 +1,4 @@
-import ConversationSidebar from "../components/dashboard/ConversationSidebar";
+﻿import ConversationSidebar from "../components/dashboard/ConversationSidebar";
 
 export default function DashboardLayout({
   children,
@@ -7,9 +7,11 @@ export default function DashboardLayout({
 }) {
   return (
     <main className="flex min-h-screen bg-gray-100">
-      <ConversationSidebar />
+      <div className="hidden lg:block shrink-0">
+        <ConversationSidebar />
+      </div>
 
-      <section className="flex-1 overflow-y-auto">
+      <section className="min-w-0 flex-1 overflow-y-auto">
         {children}
       </section>
     </main>
