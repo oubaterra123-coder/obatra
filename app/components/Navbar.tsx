@@ -11,7 +11,7 @@ export default function Navbar() {
             alt="Obatra"
             width={150}
             height={45}
-            className="h-[72px] w-auto object-contain"
+            className="h-[90px] w-auto object-contain"
             priority
           />
         </Link>
@@ -44,6 +44,7 @@ export default function Navbar() {
     </nav>
   );
 }
+
 
 
 
