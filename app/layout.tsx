@@ -20,6 +20,11 @@ export const metadata: Metadata = {
   },
   description:
     "Obatra is an AI workspace for chat, writing, image generation, PDF analysis, and translation.",
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/icon.png",
+  },
   keywords: [
     "AI workspace",
     "AI tools",
@@ -68,3 +73,4 @@ export default function RootLayout({
     </html>
   );
 }
+
