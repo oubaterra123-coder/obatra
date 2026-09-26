@@ -140,7 +140,16 @@ export async function POST(req: Request) {
       const [, language, text] = message.split("::");
       prompt = PROMPTS.translator(text, language);
     } else {
-      prompt = PROMPTS.chat(message);
+      prompt =
+        PROMPTS.chat(message) +
+        "\n\nLANGUAGE RULES:\n" +
+        "1. Detect the language and dialect used by the user.\n" +
+        "2. If the user writes in Moroccan Darija, understand Moroccan Darija and reply naturally in Moroccan Darija.\n" +
+        "3. Do not automatically convert Darija into Modern Standard Arabic.\n" +
+        "4. If the user writes in Arabic, use the same Arabic style used by the user.\n" +
+        "5. If the user writes in French, reply in French.\n" +
+        "6. If the user writes in English, reply in English.\n" +
+        "7. Keep the response natural, clear, and conversational.\n";
     }
 
     console.log("Generating Gemini response...");
@@ -219,6 +228,7 @@ export async function POST(req: Request) {
     );
   }
 }
+
 
 
 

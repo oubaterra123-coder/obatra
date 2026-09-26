@@ -11,6 +11,7 @@ export default function WriterPage() {
   const [article, setArticle] = useState("");
   const [loading, setLoading] = useState(false);
   const [conversationId, setConversationId] = useState<string | null>(null);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   useEffect(() => {
     async function initConversation() {
@@ -27,6 +28,10 @@ export default function WriterPage() {
     }
 
     initConversation();
+
+    return () => {
+      window.speechSynthesis.cancel();
+    };
   }, []);
 
   async function generateArticle() {
@@ -42,6 +47,8 @@ export default function WriterPage() {
 
     setLoading(true);
     setArticle("");
+    window.speechSynthesis.cancel();
+    setIsSpeaking(false);
 
     try {
       const {
@@ -82,6 +89,57 @@ export default function WriterPage() {
       );
     } finally {
       setLoading(false);
+    }
+  }
+
+  function readAloud() {
+    if (!article.trim()) return;
+
+    if (isSpeaking) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+      return;
+    }
+
+    const speak = () => {
+      const text = article.trim();
+      const voices = window.speechSynthesis.getVoices();
+      const hasArabic = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/.test(text);
+      const hasFrench = /[àâçéèêëîïôûùüÿœ]/i.test(text);
+
+      let language = "en";
+      if (hasArabic) language = "ar";
+      else if (hasFrench) language = "fr";
+
+      const voice =
+        voices.find((v) => v.lang.toLowerCase() === language) ||
+        voices.find((v) => v.lang.toLowerCase().startsWith(language + "-")) ||
+        voices.find((v) => v.lang.toLowerCase().startsWith(language));
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = voice?.lang || language;
+      if (voice) utterance.voice = voice;
+      utterance.rate = 1;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+
+      utterance.onstart = () => setIsSpeaking(true);
+      utterance.onend = () => setIsSpeaking(false);
+      utterance.onerror = () => setIsSpeaking(false);
+
+      window.speechSynthesis.speak(utterance);
+    };
+
+    window.speechSynthesis.cancel();
+    const voices = window.speechSynthesis.getVoices();
+
+    if (voices.length > 0) {
+      speak();
+    } else {
+      window.speechSynthesis.onvoiceschanged = () => {
+        window.speechSynthesis.onvoiceschanged = null;
+        speak();
+      };
     }
   }
 
@@ -155,9 +213,20 @@ export default function WriterPage() {
               Generating content...
             </p>
           ) : article ? (
-            <div className="whitespace-pre-wrap leading-8 text-slate-700">
-              {article}
-            </div>
+            <>
+              <div className="mb-5 flex items-center gap-3">
+                <button
+                  onClick={readAloud}
+                  className="rounded-xl bg-slate-900 px-5 py-3 font-semibold text-white transition hover:bg-slate-800"
+                >
+                  {isSpeaking ? "⏹ Stop Reading" : "🔊 Read Aloud"}
+                </button>
+              </div>
+
+              <div className="whitespace-pre-wrap leading-8 text-slate-700">
+                {article}
+              </div>
+            </>
           ) : (
             <p className="text-gray-400">
               Your generated content will appear here.
