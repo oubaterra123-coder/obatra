@@ -1,4 +1,5 @@
 ﻿import ConversationSidebar from "../components/dashboard/ConversationSidebar";
+import MobileBackButton from "../components/dashboard/MobileBackButton";
 
 export default function DashboardLayout({
   children,
@@ -12,8 +13,11 @@ export default function DashboardLayout({
       </div>
 
       <section className="min-w-0 flex-1 overflow-y-auto">
+ <MobileBackButton />
         {children}
       </section>
     </main>
   );
 }
+
+
