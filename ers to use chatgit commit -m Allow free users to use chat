@@ -1,0 +1,22 @@
+[1mdiff --git a/app/api/chat/route.ts b/app/api/chat/route.ts[m
+[1mindex 43e56dd..03ceaa9 100644[m
+[1m--- a/app/api/chat/route.ts[m
+[1m+++ b/app/api/chat/route.ts[m
+[36m@@ -77,17 +77,6 @@[m [mexport async function POST(req: Request) {[m
+ [m
+     console.log("USER PLAN:", profile.plan);[m
+ [m
+[31m-    if (profile.plan !== "pro") {[m
+[31m-      return NextResponse.json([m
+[31m-        {[m
+[31m-          success: false,[m
+[31m-          error: "Pro subscription required.",[m
+[31m-          code: "PRO_REQUIRED",[m
+[31m-        },[m
+[31m-        { status: 403 }[m
+[31m-      );[m
+[31m-    }[m
+[31m-[m
+     const { message, conversationId } = await req.json();[m
+ [m
+     if (!message?.trim()) {[m
