@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 import { createConversation } from "@/lib/conversations";
@@ -197,7 +197,7 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="flex min-h-full min-w-0 bg-gray-100">
+    <div className="flex h-full min-w-0 bg-gray-100">
       <main className="flex min-w-0 flex-1 flex-col p-3 sm:p-8">
         <h1 className="mb-3 text-2xl font-bold sm:mb-6 sm:text-3xl">
           AI Chat
@@ -205,7 +205,7 @@ export default function ChatPage() {
 
         <div
           ref={chatContainerRef}
-          className="mb-4 min-h-0 flex-1 overflow-y-auto overscroll-contain rounded-xl border bg-white p-3 shadow sm:mb-6 sm:p-6"
+          className="mb-2 min-h-[200px] max-h-[calc(100vh-220px)] overflow-y-auto overscroll-contain rounded-xl border bg-white p-3 shadow sm:p-4"
         >
           {messages.length === 0 ? (
             <p className="text-gray-700">
@@ -269,3 +269,10 @@ export default function ChatPage() {
     </div>
   );
 }
+
+
+
+
+
+
+

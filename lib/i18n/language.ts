@@ -3,7 +3,7 @@
 export const LANGUAGE_STORAGE_KEY = "obatra-language";
 
 export function isLanguage(value: string | null): value is Language {
-  return value === "fr" || value === "en" || value === "ar";
+  return value === "fr" || value === "en" || value === "ar" || value === "es" || value === "de" || value === "it";
 }
 
 export function getStoredLanguage(): Language {
@@ -13,3 +13,4 @@ export function getStoredLanguage(): Language {
 
   return isLanguage(saved) ? saved : "fr";
 }
+

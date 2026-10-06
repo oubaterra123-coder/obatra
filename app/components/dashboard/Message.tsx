@@ -1,8 +1,10 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { getStoredLanguage } from "@/lib/i18n/language";
+import { getTranslations, type Language } from "@/lib/i18n/translations";
 
 type Props = {
   role: "user" | "assistant";
@@ -11,6 +13,9 @@ type Props = {
 
 export default function Message({ role, content }: Props) {
   const [copied, setCopied] = useState(false);
+  const [language] = useState<Language>(() => getStoredLanguage());
+
+  const t = getTranslations(language);
 
   async function copyMessage() {
     await navigator.clipboard.writeText(content);
@@ -20,6 +25,20 @@ export default function Message({ role, content }: Props) {
       setCopied(false);
     }, 2000);
   }
+
+  const copyLabel =
+    language === "fr"
+      ? "Copier"
+      : language === "ar"
+        ? "نسخ"
+        : "Copy";
+
+  const copiedLabel =
+    language === "fr"
+      ? "Copié"
+      : language === "ar"
+        ? "تم النسخ"
+        : "Copied";
 
   return (
     <div
@@ -31,7 +50,7 @@ export default function Message({ role, content }: Props) {
     >
       <div className="mb-3 flex items-center justify-between">
         <strong>
-          {role === "user" ? "You" : "Obatra AI"}
+          {role === "user" ? (language === "ar" ? "أنت" : language === "fr" ? "Vous" : "You") : "Obatra AI"}
         </strong>
 
         {role === "assistant" && (
@@ -39,7 +58,7 @@ export default function Message({ role, content }: Props) {
             onClick={copyMessage}
             className="rounded-lg border px-3 py-1 text-sm hover:bg-gray-100"
           >
-            {copied ? "✅ Copied" : "📋 Copy"}
+            {copied ? `✅ ${copiedLabel}` : `📋 ${copyLabel}`}
           </button>
         )}
       </div>

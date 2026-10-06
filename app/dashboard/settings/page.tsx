@@ -21,6 +21,12 @@ export default function SettingsPage() {
 
     document.documentElement.lang = value;
     document.documentElement.dir = value === "ar" ? "rtl" : "ltr";
+
+    window.dispatchEvent(
+      new CustomEvent("obatra-language-change", {
+        detail: value,
+      })
+    );
   }
 
   const t = getTranslations(language);
@@ -185,3 +191,4 @@ export default function SettingsPage() {
     </main>
   );
 }
+

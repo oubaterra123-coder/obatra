@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { getStoredLanguage } from "@/lib/i18n/language";
+import { getTranslations, type Language } from "@/lib/i18n/translations";
 
 type Conversation = {
   id: string;
@@ -14,6 +16,13 @@ export default function ConversationSidebar() {
   const [search, setSearch] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [newTitle, setNewTitle] = useState("");
+  const [language, setLanguage] = useState<Language>("fr");
+
+  useEffect(() => {
+    setLanguage(getStoredLanguage());
+  }, []);
+
+  const t = getTranslations(language);
 
   async function getAuthHeaders() {
     const {
@@ -69,13 +78,26 @@ export default function ConversationSidebar() {
   }, []);
 
   async function deleteConversation(id: string) {
-    if (!confirm("Delete this conversation?")) return;
+    const message =
+      language === "fr"
+        ? "Supprimer cette conversation ?"
+        : language === "ar"
+          ? "هل تريد حذف هذه المحادثة؟"
+          : "Delete this conversation?";
+
+    if (!confirm(message)) return;
 
     try {
       const headers = await getAuthHeaders();
 
       if (!headers) {
-        alert("Please log in again.");
+        alert(
+          language === "fr"
+            ? "Veuillez vous reconnecter."
+            : language === "ar"
+              ? "يرجى تسجيل الدخول مرة أخرى."
+              : "Please log in again."
+        );
         return;
       }
 
@@ -87,7 +109,13 @@ export default function ConversationSidebar() {
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         console.error("DELETE ERROR:", data);
-        alert("Delete failed");
+        alert(
+          language === "fr"
+            ? "La suppression a échoué."
+            : language === "ar"
+              ? "فشل الحذف."
+              : "Delete failed."
+        );
         return;
       }
 
@@ -106,7 +134,13 @@ export default function ConversationSidebar() {
       const headers = await getAuthHeaders();
 
       if (!headers) {
-        alert("Please log in again.");
+        alert(
+          language === "fr"
+            ? "Veuillez vous reconnecter."
+            : language === "ar"
+              ? "يرجى تسجيل الدخول مرة أخرى."
+              : "Please log in again."
+        );
         return;
       }
 
@@ -127,7 +161,13 @@ export default function ConversationSidebar() {
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         console.error("RENAME ERROR:", data);
-        alert("Rename failed");
+        alert(
+          language === "fr"
+            ? "Le renommage a échoué."
+            : language === "ar"
+              ? "فشلت إعادة التسمية."
+              : "Rename failed."
+        );
         return;
       }
 
@@ -150,15 +190,48 @@ export default function ConversationSidebar() {
     chat.title.toLowerCase().includes(search.toLowerCase())
   );
 
+  const labels = {
+    chats:
+      language === "fr"
+        ? "Conversations"
+        : language === "ar"
+          ? "المحادثات"
+          : "Chats",
+    search:
+      language === "fr"
+        ? "Rechercher des conversations..."
+        : language === "ar"
+          ? "البحث في المحادثات..."
+          : "Search chats...",
+    newChat:
+      language === "fr"
+        ? "+ Nouvelle conversation"
+        : language === "ar"
+          ? "+ محادثة جديدة"
+          : "+ New Chat",
+    rename:
+      language === "fr"
+        ? "Renommer"
+        : language === "ar"
+          ? "إعادة التسمية"
+          : "Rename",
+    delete:
+      language === "fr"
+        ? "Supprimer"
+        : language === "ar"
+          ? "حذف"
+          : "Delete",
+  };
+
   return (
     <aside className="w-72 overflow-y-auto border-r bg-white p-4">
       <h2 className="mb-5 text-xl font-bold">
-        Chats
+        {labels.chats}
       </h2>
 
       <input
         type="text"
-        placeholder="Search chats..."
+        placeholder={labels.search}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         className="mb-4 w-full rounded-lg border p-3 outline-none focus:border-blue-500"
@@ -168,7 +241,7 @@ export default function ConversationSidebar() {
         href="/dashboard/chat"
         className="mb-5 block rounded-lg bg-blue-600 p-3 text-center text-white hover:bg-blue-700"
       >
-        + New Chat
+        {labels.newChat}
       </Link>
 
       <div className="space-y-3">
@@ -181,20 +254,16 @@ export default function ConversationSidebar() {
               <>
                 <input
                   value={newTitle}
-                  onChange={(e) =>
-                    setNewTitle(e.target.value)
-                  }
+                  onChange={(e) => setNewTitle(e.target.value)}
                   className="mb-2 w-full rounded-lg border p-2"
                 />
 
                 <div className="flex gap-2">
                   <button
-                    onClick={() =>
-                      renameConversation(chat.id)
-                    }
+                    onClick={() => renameConversation(chat.id)}
                     className="flex-1 rounded-lg bg-green-600 py-2 text-white hover:bg-green-700"
                   >
-                    Save
+                    {t.save}
                   </button>
 
                   <button
@@ -204,7 +273,7 @@ export default function ConversationSidebar() {
                     }}
                     className="flex-1 rounded-lg border py-2 hover:bg-gray-100"
                   >
-                    Cancel
+                    {t.cancel}
                   </button>
                 </div>
               </>
@@ -225,16 +294,14 @@ export default function ConversationSidebar() {
                     }}
                     className="flex-1 rounded-lg bg-yellow-500 py-2 text-white hover:bg-yellow-600"
                   >
-                    Rename
+                    {labels.rename}
                   </button>
 
                   <button
-                    onClick={() =>
-                      deleteConversation(chat.id)
-                    }
+                    onClick={() => deleteConversation(chat.id)}
                     className="flex-1 rounded-lg bg-red-500 py-2 text-white hover:bg-red-600"
                   >
-                    Delete
+                    {labels.delete}
                   </button>
                 </div>
               </>

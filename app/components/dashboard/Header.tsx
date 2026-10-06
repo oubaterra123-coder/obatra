@@ -82,6 +82,21 @@ export default function Header() {
     router.replace("/login");
   }
 
+  function changeLanguage(value: Language) {
+    setLanguage(value);
+
+    localStorage.setItem("obatra-language", value);
+
+    document.documentElement.lang = value;
+    document.documentElement.dir = value === "ar" ? "rtl" : "ltr";
+
+    window.dispatchEvent(
+      new CustomEvent("obatra-language-change", {
+        detail: value,
+      })
+    );
+  }
+
   const t = getTranslations(language);
 
   if (checkingSession) {
@@ -110,7 +125,21 @@ export default function Header() {
         </p>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
+        <select
+          value={language}
+          onChange={(e) => changeLanguage(e.target.value as Language)}
+          aria-label={t.language}
+          className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 outline-none focus:border-blue-500"
+        >
+          <option value="fr">🇫🇷 Français</option>
+          <option value="en">🇬🇧 English</option>
+          <option value="ar">🇲🇦 العربية</option>
+          <option value="es">🇪🇸 Español</option>
+          <option value="de">🇩🇪 Deutsch</option>
+          <option value="it">🇮🇹 Italiano</option>
+        </select>
+
         <button
           onClick={() => router.push("/dashboard/settings/pro")}
           className="rounded-lg bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700"
@@ -136,3 +165,5 @@ export default function Header() {
     </header>
   );
 }
+
+
