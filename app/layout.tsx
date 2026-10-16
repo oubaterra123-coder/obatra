@@ -1,4 +1,5 @@
 ﻿import type { Metadata } from "next";
+import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ServiceWorkerRegister from "./components/ServiceWorkerRegister";
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
     template: "%s | Obatra",
   },
   description:
-    "Obatra is an AI workspace for chat, writing, image generation, PDF analysis, and translation.",
+    "Obatra is an AI workspace for chat, writing, PDF analysis, and translation.",
   icons: {
     icon: "/logo.png",
     shortcut: "/logo.png",
@@ -37,7 +38,6 @@ export const metadata: Metadata = {
     "AI tools",
     "AI chat",
     "AI writer",
-    "AI image generator",
     "PDF AI",
     "AI translator",
     "Obatra",
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     siteName: "Obatra",
     title: "Obatra - AI Workspace for Your Business",
     description:
-      "Chat, write, create images, analyze PDFs, and translate with Obatra.",
+      "Chat, write, analyze PDFs, and translate with Obatra.",
   },
   verification: {
     google: "Uh-ViFaleu6LZHbkmAptB-lz6VbsI8NbLR9Ef47fQSE",
@@ -75,6 +75,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full">
+        <Script src="https://quge5.com/88/tag.min.js" data-zone="296848" data-cfasync="false" strategy="afterInteractive" />
         <LanguageInitializer />
         <ServiceWorkerRegister />
         {children}
@@ -82,6 +83,11 @@ export default function RootLayout({
     </html>
   );
 }
+
+
+
+
+
 
 
 
