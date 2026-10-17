@@ -75,6 +75,11 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full">
+        <Script
+          src="https://nap5k.com/tag.min.js"
+          data-zone="12054966"
+          strategy="afterInteractive"
+        />
         <LanguageInitializer />
         <ServiceWorkerRegister />
         {children}
@@ -82,6 +87,7 @@ export default function RootLayout({
     </html>
   );
 }
+
 
 
 
