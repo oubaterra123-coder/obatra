@@ -75,7 +75,6 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full">
-        <Script src="https://quge5.com/88/tag.min.js" data-zone="296848" data-cfasync="false" strategy="afterInteractive" />
         <LanguageInitializer />
         <ServiceWorkerRegister />
         {children}
@@ -83,6 +82,7 @@ export default function RootLayout({
     </html>
   );
 }
+
 
 
 
