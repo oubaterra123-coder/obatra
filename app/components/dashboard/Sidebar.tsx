@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -7,16 +7,16 @@ import { getStoredLanguage } from "@/lib/i18n/language";
 import { getTranslations, type Language } from "@/lib/i18n/translations";
 
 const menuItems = [
-  { key: "chat", icon: "ðŸ¤–", path: "/dashboard/chat" },
-  { key: "writer", icon: "âœï¸", path: "/dashboard/writer" },
-  { key: "pdf", icon: "ðŸ“„", path: "/dashboard/pdf" },
-  { key: "translator", icon: "ðŸŒ", path: "/dashboard/translator" },
-  { key: "summarizer", icon: "ðŸ“", path: "/dashboard/summarizer" },
-  { key: "study", icon: "ðŸŽ“", path: "/dashboard/study" },
-  { key: "email", icon: "ðŸ“§", path: "/dashboard/email" },
-  { key: "productDescription", icon: "ðŸ›ï¸", path: "/dashboard/product-description" },
-  { key: "planner", icon: "ðŸ“…", path: "/dashboard/planner" },
-  { key: "settings", icon: "âš™ï¸", path: "/dashboard/settings" },
+  { key: "chat", icon: "🤖", path: "/dashboard/chat" },
+  { key: "writer", icon: "✍", path: "/dashboard/writer" },
+  { key: "pdf", icon: "📄", path: "/dashboard/pdf" },
+  { key: "translator", icon: "🌐", path: "/dashboard/product-description" },
+  { key: "summarizer", icon: "📝", path: "/dashboard/summarizer" },
+  { key: "study", icon: "🎓", path: "/dashboard/study" },
+  { key: "email", icon: "📧", path: "/dashboard/email" },
+  { key: "productDescription", icon: "🛍️", path: "/dashboard/product-description" },
+  { key: "planner", icon: "🗓️", path: "/dashboard/planner" },
+  { key: "settings", icon: "⚙", path: "/dashboard/settings" },
 ] as const;
 
 export default function Sidebar() {
@@ -83,7 +83,7 @@ export default function Sidebar() {
           aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
           className="rounded-lg border border-slate-700 px-3 py-2"
         >
-          {mobileOpen ? "âœ• Close" : "â˜° Menu"}
+          {mobileOpen ? "✕ Close" : "☰ Menu"}
         </button>
       </div>
 
