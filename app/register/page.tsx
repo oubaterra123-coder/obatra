@@ -1,6 +1,6 @@
-"use client";
+﻿"use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
@@ -12,6 +12,19 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    let active = true;
+
+    supabase.auth.getSession().then(({ data }) => {
+      if (active && data.session?.user) {
+        router.replace("/dashboard");
+      }
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [router]);
 
   async function register() {
     if (!name || !email || !password) {
@@ -66,7 +79,7 @@ export default function RegisterPage() {
           : "Account created. Please verify your email before logging in."
       );
 
-      router.push("/login");
+      router.replace(data.session ? "/dashboard" : "/login");
     } catch (error) {
       console.error("REGISTER FAILED RAW:", error);
       console.error("REGISTER FAILED JSON:", JSON.stringify(error, null, 2));
@@ -137,6 +150,8 @@ export default function RegisterPage() {
     </main>
   );
 }
+
+
 
 
 

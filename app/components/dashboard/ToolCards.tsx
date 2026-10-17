@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 const tools = [
   {
@@ -6,12 +6,6 @@ const tools = [
     description: "Chat with Gemini AI",
     href: "/dashboard/chat",
     color: "bg-blue-600",
-  },
-  {
-    title: "Image Generator",
-    description: "Generate AI images",
-    href: "/dashboard/image",
-    color: "bg-purple-600",
   },
   {
     title: "Article Writer",

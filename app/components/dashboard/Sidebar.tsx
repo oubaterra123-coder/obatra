@@ -1,75 +1,123 @@
 ﻿"use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { getStoredLanguage } from "@/lib/i18n/language";
 import { getTranslations, type Language } from "@/lib/i18n/translations";
-import { useEffect, useState } from "react";
 
 const menuItems = [
-  {
-    key: "chat",
-    icon: "🤖",
-    path: "/dashboard/chat",
-  },
-  {
-    key: "writer",
-    icon: "✍️",
-    path: "/dashboard/writer",
-  },
-  {
-    key: "images",
-    icon: "🖼️",
-    path: "/dashboard/images",
-  },
-  {
-    key: "pdf",
-    icon: "📄",
-    path: "/dashboard/pdf",
-  },
-  {
-    key: "settings",
-    icon: "⚙️",
-    path: "/dashboard/settings",
-  },
+  { key: "chat", icon: "ðŸ¤–", path: "/dashboard/chat" },
+  { key: "writer", icon: "âœï¸", path: "/dashboard/writer" },
+  { key: "pdf", icon: "ðŸ“„", path: "/dashboard/pdf" },
+  { key: "translator", icon: "ðŸŒ", path: "/dashboard/translator" },
+  { key: "summarizer", icon: "ðŸ“", path: "/dashboard/summarizer" },
+  { key: "study", icon: "ðŸŽ“", path: "/dashboard/study" },
+  { key: "email", icon: "ðŸ“§", path: "/dashboard/email" },
+  { key: "productDescription", icon: "ðŸ›ï¸", path: "/dashboard/product-description" },
+  { key: "planner", icon: "ðŸ“…", path: "/dashboard/planner" },
+  { key: "settings", icon: "âš™ï¸", path: "/dashboard/settings" },
 ] as const;
 
 export default function Sidebar() {
+  const pathname = usePathname();
   const [language, setLanguage] = useState<Language>("fr");
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     setLanguage(getStoredLanguage());
 
-    const handleStorage = () => {
-      setLanguage(getStoredLanguage());
+    const handleLanguageChange = (event: Event) => {
+      setLanguage((event as CustomEvent<Language>).detail);
     };
 
+    const handleStorage = () => setLanguage(getStoredLanguage());
+
+    window.addEventListener("obatra-language-change", handleLanguageChange);
     window.addEventListener("storage", handleStorage);
 
     return () => {
+      window.removeEventListener("obatra-language-change", handleLanguageChange);
       window.removeEventListener("storage", handleStorage);
     };
   }, []);
 
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
   const t = getTranslations(language);
 
-  return (
-    <aside className="h-screen w-64 bg-black p-6 text-white">
-      <h1 className="mb-10 text-3xl font-bold">
-        Obatra
-      </h1>
+  const navigation = (
+    <nav className="space-y-1">
+      {menuItems.map((item) => {
+        const active = pathname === item.path ||
+          (item.path !== "/dashboard/settings" && pathname.startsWith(item.path + "/"));
 
-      <nav className="space-y-3">
-        {menuItems.map((item) => (
+        return (
           <Link
             key={item.key}
             href={item.path}
-            className="flex items-center gap-3 rounded-lg p-3 hover:bg-gray-800"
+            className={`flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium transition ${
+              active
+                ? "bg-violet-600 text-white shadow-sm"
+                : "text-slate-300 hover:bg-slate-800 hover:text-white"
+            }`}
           >
-            <span>{item.icon}</span>
-            {t[item.key]}
+            <span className="text-lg">{item.icon}</span>
+            <span>{t[item.key]}</span>
           </Link>
-        ))}
-      </nav>
-    </aside>
+        );
+      })}
+    </nav>
+  );
+
+  return (
+    <>
+      <div className="sticky top-0 z-40 flex items-center justify-between border-b border-slate-200 bg-slate-950 px-4 py-3 text-white lg:hidden">
+        <Link href="/dashboard" className="text-xl font-bold">Obatra</Link>
+        <button
+          type="button"
+          onClick={() => setMobileOpen((open) => !open)}
+          aria-expanded={mobileOpen}
+          aria-label={mobileOpen ? "Close navigation" : "Open navigation"}
+          className="rounded-lg border border-slate-700 px-3 py-2"
+        >
+          {mobileOpen ? "âœ• Close" : "â˜° Menu"}
+        </button>
+      </div>
+
+      {mobileOpen && (
+        <button
+          type="button"
+          aria-label="Close navigation"
+          onClick={() => setMobileOpen(false)}
+          className="fixed inset-0 z-40 bg-black/50 lg:hidden"
+        />
+      )}
+
+      <aside className="hidden h-screen w-64 shrink-0 flex-col overflow-y-auto bg-slate-950 p-5 text-white lg:sticky lg:top-0 lg:flex">
+        <Link href="/dashboard" className="mb-8 px-3 text-2xl font-bold tracking-tight">
+          Obatra <span className="text-violet-400">AI</span>
+        </Link>
+        <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-widest text-slate-500">
+          {t.workspace}
+        </p>
+        {navigation}
+        <div className="mt-auto border-t border-slate-800 pt-4 text-xs text-slate-500">
+          Obatra AI Workspace
+        </div>
+      </aside>
+
+      <aside className={`fixed inset-y-0 left-0 z-50 w-72 overflow-y-auto bg-slate-950 p-5 text-white transition-transform lg:hidden ${
+        mobileOpen ? "translate-x-0" : "-translate-x-full"
+      }`}>
+        <Link href="/dashboard" className="mb-8 block px-3 text-2xl font-bold">
+          Obatra <span className="text-violet-400">AI</span>
+        </Link>
+        {navigation}
+      </aside>
+    </>
   );
 }
+

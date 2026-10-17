@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, HarmCategory, HarmBlockThreshold, type SafetySetting } from "@google/genai";
 
 const apiKey = process.env.GEMINI_API_KEY;
 
@@ -9,12 +9,20 @@ if (!apiKey) {
 const gemini = new GoogleGenAI({
   apiKey,
 });
+const safetySettings: SafetySetting[] = [
+  { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE },
+  { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE },
+  { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE },
+  { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_LOW_AND_ABOVE },
+];
+
 
 // Ø§Ù„Ø¬ÙˆØ§Ø¨ Ø§Ù„Ø¹Ø§Ø¯ÙŠ
 export async function generateText(prompt: string): Promise<string> {
   const response = await gemini.models.generateContent({
     model: "gemini-2.5-flash",
     contents: prompt,
+    config: { safetySettings },
   });
 
   return response.text ?? "";
@@ -25,6 +33,7 @@ export async function generateTextStream(prompt: string) {
   return await gemini.models.generateContentStream({
     model: "gemini-2.5-flash",
     contents: prompt,
+    config: { safetySettings },
   });
 }
 export async function generateProductDescription(
@@ -73,6 +82,7 @@ IMPORTANT:
 `
       },
     ],
+    config: { safetySettings },
   });
 
   return response.text ?? "";

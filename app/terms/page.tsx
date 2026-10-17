@@ -53,7 +53,7 @@ export default function TermsPage() {
               </h2>
               <p className="mt-3 leading-7">
                 Obatra provides AI-powered tools that may include chat,
-                writing, image generation, PDF analysis, and translation
+                writing, PDF analysis, and translation
                 features.
               </p>
             </section>
@@ -228,3 +228,4 @@ export default function TermsPage() {
     </main>
   );
 }
+

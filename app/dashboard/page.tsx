@@ -60,46 +60,46 @@ export default function DashboardHome() {
       href: "/dashboard/writer",
     },
     {
-      title: t.images,
-      description: t.startCreating,
-      icon: "🖼️",
-      href: "/dashboard/image",
-    },
-    {
       title: t.pdf,
-      description: t.chooseTool,
+      description: t.pdfDescription,
       icon: "📄",
       href: "/dashboard/pdf",
     },
     {
       title: t.translator,
-      description: t.chooseTool,
+      description: t.translatorDescription,
       icon: "🌐",
       href: "/dashboard/translator",
     },
     {
       title: t.summarizer,
-      description: t.chooseTool,
+      description: t.summarizerDescription,
       icon: "📝",
       href: "/dashboard/summarizer",
     },
     {
       title: t.study,
-      description: t.chooseTool,
+      description: t.studyDescription,
       icon: "🎓",
       href: "/dashboard/study",
     },
     {
       title: t.email,
-      description: t.chooseTool,
+      description: t.emailDescription,
       icon: "📧",
       href: "/dashboard/email",
     },
     {
       title: t.productDescription,
-      description: t.chooseTool,
+      description: t.productDescriptionText,
       icon: "🛍️",
       href: "/dashboard/product-description",
+    },
+    {
+      title: t.planner,
+      description: t.plannerDescription,
+      icon: "📅",
+      href: "/dashboard/planner",
     },
   ];
 
@@ -287,3 +287,7 @@ export default function DashboardHome() {
     </>
   );
 }
+
+
+
+

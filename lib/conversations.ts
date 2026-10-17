@@ -1,4 +1,4 @@
-import { supabase } from "./supabase";
+﻿import { supabase } from "./supabase";
 
 async function getAccessToken() {
   const {
@@ -9,31 +9,49 @@ async function getAccessToken() {
 }
 
 export async function createConversation() {
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
+  try {
+    console.info("OBATRA CHAT: checking authenticated user");
 
-  if (userError || !user) {
-    console.error("No authenticated user.", userError);
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError) {
+      console.error("OBATRA AUTH ERROR:", userError.message);
+      return null;
+    }
+
+    if (!user) {
+      console.warn("OBATRA CHAT: no authenticated user");
+      return null;
+    }
+
+    console.info("OBATRA CHAT: creating conversation");
+
+    const { data, error } = await supabase
+      .from("conversations")
+      .insert({
+        user_id: user.id,
+        title: "New Chat",
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error("OBATRA CREATE CONVERSATION ERROR:", error.message);
+      return null;
+    }
+
+    console.info("OBATRA CHAT: conversation created");
+    return data;
+  } catch (error) {
+    console.error(
+      "OBATRA CREATE CONVERSATION FETCH ERROR:",
+      error instanceof Error ? error.message : String(error)
+    );
     return null;
   }
-
-  const { data, error } = await supabase
-    .from("conversations")
-    .insert({
-      user_id: user.id,
-      title: "New Chat",
-    })
-    .select()
-    .single();
-
-  if (error) {
-    console.error("CREATE CONVERSATION ERROR:", error);
-    return null;
-  }
-
-  return data;
 }
 
 export async function getConversations() {
@@ -59,3 +77,4 @@ export async function getConversations() {
 
   return await res.json();
 }
+

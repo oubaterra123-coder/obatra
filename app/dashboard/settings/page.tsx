@@ -89,7 +89,11 @@ export default function SettingsPage() {
             >
               <option value="fr">Français</option>
               <option value="en">English</option>
-              <option value="ar">العربية</option>
+              
+<option value="ar">العربية</option>
+              <option value="es">Español</option>
+              <option value="de">Deutsch</option>
+              <option value="it">Italiano</option>
             </select>
           </section>
 
@@ -143,7 +147,6 @@ export default function SettingsPage() {
                 [t.chat, language === "fr" ? "Discutez avec votre assistant IA." : language === "en" ? "Chat with your AI assistant." : "تحدث مع مساعدك الذكي."],
                 [t.pdf, language === "fr" ? "Analysez des PDF et posez des questions." : language === "en" ? "Analyze PDFs and ask questions." : "حلل ملفات PDF واطرح الأسئلة."],
                 [t.writer, language === "fr" ? "Créez du contenu avec l'IA." : language === "en" ? "Create content with AI." : "أنشئ المحتوى باستخدام الذكاء الاصطناعي."],
-                [t.images, language === "fr" ? "Générez des images avec l'IA." : language === "en" ? "Generate images with AI." : "أنشئ الصور باستخدام الذكاء الاصطناعي."],
               ].map(([title, description]) => (
                 <div key={title} className="rounded-xl border p-4">
                   <p className="font-semibold">{title}</p>
@@ -191,4 +194,6 @@ export default function SettingsPage() {
     </main>
   );
 }
+
+
 
