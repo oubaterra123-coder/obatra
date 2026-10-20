@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -19,7 +19,7 @@ export default function Hero() {
         </h1>
 
         <p className="mx-auto mt-7 max-w-2xl text-lg leading-8 text-gray-600 md:text-xl">
-          Chat, write, create images, analyze PDFs, and translate - all in one
+          Chat, write, analyze PDFs, and translate - all in one
           powerful AI workspace built to help you work smarter.
         </p>
 

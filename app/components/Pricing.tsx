@@ -1,15 +1,14 @@
-﻿"use client";
+"use client";
 
 const plans = [
   {
     name: "Free",
     price: "$0",
     period: "/ forever",
-    description: "Get started with Obatra and explore every AI tool.",
+    description: "Get started with Obatra's available AI tools.",
     features: [
       "AI Chat",
       "AI Writer",
-      "AI Images",
       "PDF AI",
       "Translator",
       "AI Summarizer",
@@ -160,7 +159,7 @@ export default function Pricing() {
         </div>
 
         <p className="mt-10 text-center text-sm text-gray-500">
-          Free users can try every Obatra tool with daily usage limits.
+          Free users can try available Obatra tools with daily usage limits.
         </p>
       </div>
     </section>

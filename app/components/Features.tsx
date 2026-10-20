@@ -1,7 +1,6 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import {
   PenSquare,
-  ImageIcon,
   MessageCircle,
   FileText,
   Languages,
@@ -24,12 +23,7 @@ const features = [
     description:
       "Create blogs, emails, ads, and professional content in seconds.",
   },
-  {
-    icon: ImageIcon,
-    title: "AI Images",
-    description:
-      "Turn simple ideas into creative images with AI-powered generation.",
-  },
+
   {
     icon: FileText,
     title: "PDF AI",
