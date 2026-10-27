@@ -1054,4 +1054,241 @@ export const blogPosts: BlogPost[] = [
     }
   ]
 },
+
+{
+  "slug": "create-a-study-plan-with-ai-for-free",
+  "title": "How to Create a Study Plan with AI for Free",
+  "description": "Learn how to use AI to build a realistic study schedule, organize subjects, set priorities, and prepare for exams more effectively.",
+  "publishedAt": "2026-10-26",
+  "category": "Education",
+  "readTime": "7 min read",
+  "content": [
+    {
+      "heading": "Why use AI to create a study plan?",
+      "paragraphs": [
+        "Creating a study plan can feel difficult when you have several subjects, assignments, and exams to prepare for. An AI study planner can help you organize your workload and turn a long list of tasks into a practical schedule.",
+        "AI works best as a planning assistant. You still decide which subjects matter most, how much time you have, and which study methods help you learn."
+      ],
+      "bullets": [
+        "Organize subjects and deadlines in one plan.",
+        "Divide large topics into smaller study sessions.",
+        "Leave time for practice questions and revision.",
+        "Adjust your schedule when your priorities change."
+      ]
+    },
+    {
+      "heading": "Step 1: List your subjects and deadlines",
+      "paragraphs": [
+        "Start by listing every subject you need to study, the topics you must cover, and the dates of your upcoming exams. Estimate how confident you feel about each topic so you can identify where more practice is needed.",
+        "Give the AI specific information rather than asking it to create a generic schedule. Include your available hours, school or work commitments, and any days when you cannot study."
+      ]
+    },
+    {
+      "heading": "Step 2: Ask AI to build a realistic schedule",
+      "paragraphs": [
+        "A useful study schedule balances difficult subjects with easier review sessions. Ask AI to divide your available time into focused blocks and include short breaks. Avoid filling every hour because unexpected tasks and tiredness can affect your progress."
+      ],
+      "bullets": [
+        "Prioritize upcoming exams and difficult topics.",
+        "Schedule short breaks between focused sessions.",
+        "Review earlier material instead of only studying new topics.",
+        "Keep one flexible block for unfinished work."
+      ]
+    },
+    {
+      "heading": "Step 3: Improve the plan every week",
+      "paragraphs": [
+        "At the end of each week, check what you completed and what still needs attention. Update your plan according to your results, not just the number of hours you studied. If you keep struggling with one topic, give it more practice time."
+      ]
+    },
+    {
+      "heading": "Use AI tools to stay organized",
+      "paragraphs": [
+        "Obatra brings AI-powered workspace tools together, including tools for study and planning. You can explore the available tools on the Obatra website and use them to support your own learning workflow.",
+        "Always verify important facts and course requirements against your teacher's instructions or official learning materials. AI-generated schedules are suggestions, not guarantees of exam results."
+      ]
+    }
+  ]
+},
+
+{
+  "slug": "summarize-meeting-notes-with-ai",
+  "title": "How to Summarize Meeting Notes with AI",
+  "description": "Discover how to turn long meeting notes into concise summaries, action items, decisions, and follow-up tasks using AI.",
+  "publishedAt": "2026-10-26",
+  "category": "Productivity",
+  "readTime": "7 min read",
+  "content": [
+    {
+      "heading": "Why summarize meeting notes with AI?",
+      "paragraphs": [
+        "Meetings often produce long notes filled with discussion points, questions, decisions, and tasks. A clear summary helps everyone understand what happened and what needs to happen next.",
+        "AI can help organize rough notes into a shorter, more readable format. The quality of the result depends on the notes you provide, so review the summary before sharing it with your team."
+      ],
+      "bullets": [
+        "Identify the main topics discussed.",
+        "Separate confirmed decisions from open questions.",
+        "Extract tasks and deadlines.",
+        "Prepare a concise follow-up message."
+      ]
+    },
+    {
+      "heading": "Step 1: Prepare your notes",
+      "paragraphs": [
+        "Collect your notes in one place before summarizing them. Remove duplicate lines where appropriate, but keep important names, dates, figures, and decisions. If a detail is uncertain, label it as uncertain rather than asking AI to guess.",
+        "For confidential meetings, follow your organization's privacy rules and avoid sharing sensitive information with tools that are not approved for that data."
+      ]
+    },
+    {
+      "heading": "Step 2: Use a specific AI prompt",
+      "paragraphs": [
+        "Tell the AI exactly how you want the summary organized. For example, ask it to produce a short overview, key decisions, action items, responsible people, deadlines, and questions that remain unresolved."
+      ],
+      "bullets": [
+        "Keep the summary focused on the meeting's purpose.",
+        "Preserve important facts and numbers from the original notes.",
+        "Mark missing owners or deadlines as not specified.",
+        "Do not turn suggestions into confirmed decisions."
+      ]
+    },
+    {
+      "heading": "Step 3: Review the action items",
+      "paragraphs": [
+        "Check each action item against the original notes. Make sure the assigned person, deadline, and expected result are accurate. If the notes do not identify an owner, leave that field unassigned instead of inventing one.",
+        "A useful meeting summary should make the next steps easier to understand, not simply shorten the original text."
+      ]
+    },
+    {
+      "heading": "Turn the summary into a follow-up",
+      "paragraphs": [
+        "Once you verify the summary, turn it into a short follow-up message for participants. Put decisions near the top and list action items clearly so people can see what they need to do.",
+        "Obatra offers AI workspace tools that can help with summarizing and writing tasks. Visit https://obatra.vercel.app to explore the available tools and choose the workflow that fits your needs."
+      ]
+    }
+  ]
+},
+
+{
+  "slug": "write-a-cover-letter-with-ai-for-free",
+  "title": "How to Write a Cover Letter with AI for Free",
+  "description": "Learn how to use a free AI writing workflow to draft a tailored cover letter that highlights relevant skills and experience.",
+  "publishedAt": "2026-10-26",
+  "category": "Career",
+  "readTime": "7 min read",
+  "content": [
+    {
+      "heading": "Can AI help you write a cover letter?",
+      "paragraphs": [
+        "A strong cover letter connects your experience to the requirements of a specific job. AI can help you organize your ideas, improve clarity, and create a first draft, especially when you are unsure how to begin.",
+        "The goal is not to send a generic letter. Your final version should accurately reflect your real skills, experience, achievements, and interest in the position."
+      ]
+    },
+    {
+      "heading": "Step 1: Gather the information you need",
+      "paragraphs": [
+        "Before writing, collect the job title, company name, job description, and the most relevant parts of your CV. Identify two or three skills or achievements that show why you could be a good match.",
+        "Do not invent qualifications, work experience, certificates, or measurable results just to make the letter sound impressive."
+      ],
+      "bullets": [
+        "The exact job title and employer.",
+        "The main requirements listed in the job advertisement.",
+        "Relevant experience and transferable skills.",
+        "A genuine reason you want the role."
+      ]
+    },
+    {
+      "heading": "Step 2: Ask AI for a tailored first draft",
+      "paragraphs": [
+        "Give the AI the job description and your real background. Ask for a concise, professional cover letter that connects your strongest relevant experience to the employer's needs. Specify the tone and length you prefer.",
+        "Ask the AI to use only the information you provide and to mark any missing details instead of making them up."
+      ]
+    },
+    {
+      "heading": "Step 3: Make the letter sound like you",
+      "paragraphs": [
+        "Read the draft carefully and replace vague claims with specific examples. Remove phrases that could appear in almost any application, and make sure the opening explains which position you are applying for.",
+        "Use clear language, short paragraphs, and a polite closing. The letter should complement your CV rather than repeat every detail in it."
+      ],
+      "bullets": [
+        "Check the employer and job title.",
+        "Verify every claim against your CV.",
+        "Correct grammar, spelling, and formatting.",
+        "Remove repetitive or exaggerated statements."
+      ]
+    },
+    {
+      "heading": "Step 4: Proofread before applying",
+      "paragraphs": [
+        "Compare your final letter with the job requirements and confirm that it highlights relevant skills. Check names, contact details, dates, and any instructions about the application format.",
+        "AI can assist with drafting and editing, but you are responsible for the accuracy of the application and the final decision about what to include."
+      ]
+    },
+    {
+      "heading": "Write and refine with Obatra",
+      "paragraphs": [
+        "Obatra provides an AI workspace with writing tools that can help you draft and refine professional text. Visit https://obatra.vercel.app and explore the available writing features for your next application.",
+        "You can use AI to get started faster, but a specific and truthful letter is more useful than a polished letter that does not represent your experience."
+      ]
+    }
+  ]
+},
+
+{
+  "slug": "turn-class-notes-into-study-guides-with-ai",
+  "title": "How to Turn Class Notes into Study Guides with AI",
+  "description": "Learn how to transform class notes into organized study guides, key concepts, revision questions, and exam preparation material with AI.",
+  "publishedAt": "2026-10-26",
+  "category": "Education",
+  "readTime": "7 min read",
+  "content": [
+    {
+      "heading": "What is an AI study guide?",
+      "paragraphs": [
+        "A study guide organizes important information from your course into a format that is easier to review. It may include key terms, short explanations, topic summaries, examples, and practice questions.",
+        "AI can help transform rough class notes into a structured guide, but it may misunderstand abbreviations or introduce details that were never covered in class. Use your original notes and course materials to verify the result."
+      ]
+    },
+    {
+      "heading": "Step 1: Organize your class notes",
+      "paragraphs": [
+        "Group your notes by subject, chapter, or lesson. Keep definitions, formulas, dates, examples, and teacher instructions that may be important for an exam. If you have scanned or handwritten notes, check that the text has been transcribed correctly before using it.",
+        "If your notes are long, work through one chapter or topic at a time. Smaller sections make it easier to spot missing context and review the AI's output."
+      ]
+    },
+    {
+      "heading": "Step 2: Ask AI to create a structured guide",
+      "paragraphs": [
+        "Explain the subject, your learning level, and the format you want. Ask the AI to use your notes as the main source, preserve key terminology, and clearly identify anything that is unclear or missing."
+      ],
+      "bullets": [
+        "Create a short overview of the topic.",
+        "List key concepts with simple explanations.",
+        "Keep important formulas and examples.",
+        "Generate practice questions based on the notes.",
+        "Provide answers separately so you can test yourself."
+      ]
+    },
+    {
+      "heading": "Step 3: Check accuracy and fill the gaps",
+      "paragraphs": [
+        "Compare the guide with your original notes, textbook, and teacher's materials. Correct incorrect definitions, restore omitted details, and remove unsupported claims. A shorter guide is useful only if it preserves the information you need to learn.",
+        "Mark topics you do not understand and ask for an explanation or a new example. Confirm important answers using reliable course materials."
+      ]
+    },
+    {
+      "heading": "Step 4: Study actively, not just by reading",
+      "paragraphs": [
+        "Reading a study guide repeatedly can create a false sense of familiarity. Use it to test what you remember: cover the explanations, answer practice questions, and explain difficult concepts in your own words.",
+        "Review the questions you answered incorrectly and revisit those topics later. Short, repeated review sessions can help you identify gaps before an exam."
+      ]
+    },
+    {
+      "heading": "Build your study workflow with Obatra",
+      "paragraphs": [
+        "Obatra brings AI-powered tools for studying, writing, and summarizing into one workspace. Visit https://obatra.vercel.app to explore the available tools and see which ones fit your revision routine.",
+        "Use generated guides as study aids rather than replacements for your course materials. Your teacher's instructions and official syllabus should remain the source of truth for what you need to know."
+      ]
+    }
+  ]
+}
 ];
