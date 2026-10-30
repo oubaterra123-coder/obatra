@@ -1,5 +1,6 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import ServiceWorkerRegister from "./components/ServiceWorkerRegister";
@@ -83,6 +84,7 @@ export default function RootLayout({
         <LanguageInitializer />
         <ServiceWorkerRegister />
         {children}
+        <Analytics />
       </body>
     </html>
   );
